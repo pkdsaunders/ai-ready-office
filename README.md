@@ -24,12 +24,17 @@ Each session includes **marked exercises**: the learner pastes their actual work
 
 Mirrors the smashitmarketing.com brand (HOP §3): cream canvas `#EEE0CC`, warm ink `#241C17`, oxblood `#7B2525` CTAs/dark zones, terracotta `#BA6A4C` accents, sage `#607456` success, Newsreader display + Geist Sans body, 12px card / 8px control radii. Tokens live in `tailwind.config.ts`.
 
+## Access gate
+
+Every deployment is locked behind a **cohort access code** (`src/config/access.ts`, or the `COHORT_ACCESS_CODE` env var). Staff enter it once at `/unlock`; a 30-day httpOnly cookie keeps them in. Middleware gates every page AND `/api/assess` (the assess route double-checks the cookie itself), so the paid model call is never reachable from the open internet. Demo deployment code: `SAMPLE-2026`.
+
 ## Deploying for a client
 
 1. Edit `src/config/client.ts` — company name, industry, champion name + email, cohort label, confirmed Claude plan.
-2. `npm run build` (Node 22 — see below).
-3. `npx vercel --prod` from this directory (each client gets their own Vercel project: `vercel link` first).
-4. Set `ANTHROPIC_API_KEY` on the Vercel project (one shared Smash It key is fine — usage is a few cents per learner per session).
+2. Set the cohort access code in `src/config/access.ts` (or `COHORT_ACCESS_CODE` in Vercel).
+3. `npm run build` (Node 22 — see below).
+4. `npx vercel --prod` from this directory (each client gets their own Vercel project: `vercel link` first).
+5. Set `ANTHROPIC_API_KEY` on the Vercel project (one shared Smash It key is fine — usage is a few cents per learner per session; set a monthly spend cap in the Anthropic Console regardless).
 
 ## Development
 

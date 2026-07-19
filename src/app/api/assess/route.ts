@@ -1,5 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { ACCESS_COOKIE, accessConfig, accessToken } from '@/config/access';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -69,6 +71,13 @@ const OUTPUT_SCHEMA = {
 };
 
 export async function POST(req: Request) {
+  // Defence in depth — middleware gates this too, but never trust one layer
+  // between the open internet and a paid model call.
+  const jar = await cookies();
+  if (jar.get(ACCESS_COOKIE)?.value !== (await accessToken(accessConfig.code))) {
+    return NextResponse.json({ error: 'Locked — enter your cohort access code first.' }, { status: 401 });
+  }
+
   let body: { exerciseId?: string; submission?: string };
   try {
     body = await req.json();

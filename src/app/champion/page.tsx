@@ -16,6 +16,11 @@ const SETUP = [
       'One seat per staff member, work email addresses, signed in successfully once before Day 1. A login hiccup on the morning of Day 1 costs the room twenty minutes.',
   },
   {
+    title: 'Have the cohort access code ready',
+    detail:
+      'The course site is private to your team. Smash It Marketing gives you a short access code at hand-over — write it on the whiteboard on Day 1; each person enters it once and stays signed in.',
+  },
+  {
     title: 'Install the Claude desktop app (or bookmark claude.ai)',
     detail:
       'Week 1 works in the browser or the desktop app. Week 2 (Cowork) uses the desktop app — installing it now saves a mid-course IT round.',
