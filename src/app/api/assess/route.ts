@@ -137,6 +137,18 @@ export async function POST(req: Request) {
         { status: 503 },
       );
     }
+    if (err instanceof Anthropic.AuthenticationError) {
+      return NextResponse.json(
+        { error: "The assessor's API key isn't valid — tell your champion to contact Smash It Marketing." },
+        { status: 503 },
+      );
+    }
+    if (err instanceof Anthropic.BadRequestError && String(err.message).includes('credit balance')) {
+      return NextResponse.json(
+        { error: "The assessor's account is out of credits — tell your champion to contact Smash It Marketing." },
+        { status: 503 },
+      );
+    }
     console.error('assess error', err);
     return NextResponse.json(
       { error: 'Something went wrong assessing your work — try again, or tell your champion.' },
