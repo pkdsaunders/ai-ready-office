@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-paper font-body text-ink antialiased;
+  background-image: radial-gradient(rgba(20, 32, 51, 0.028) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.18);
+}
+
+/* Confetti */
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(4vw, 108vh, 0) rotate(720deg);
+    opacity: 0;
+  }
+}
+.confetti-piece {
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.23, 0.7, 0.44, 0.98);
+  animation-fill-mode: forwards;
+}
+
+/* Print */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    ring: none !important;
+  }
+}
