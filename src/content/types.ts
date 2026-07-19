@@ -31,6 +31,29 @@ export interface WalkthroughDef {
   notice: string;
 }
 
+export interface AssessmentDef {
+  /** Server-side rubric key, e.g. 's1-email' */
+  id: string;
+  /** Which walkthrough this follows, e.g. 'w1' */
+  after: string;
+  title: string;
+  /** What to paste, in plain instructions */
+  brief: string;
+  placeholder: string;
+  /** Shown to the learner so the marking expectations are transparent */
+  lookingFor: string[];
+  minChars: number;
+}
+
+export interface AssessmentResult {
+  score: number;
+  pass: boolean;
+  strengths: string[];
+  improvement: string;
+  safetyFlag: boolean;
+  safetyNote: string;
+}
+
 export interface QuizQuestion {
   q: string;
   options: string[];
@@ -51,6 +74,7 @@ export interface BuiltSessionContent {
   selfAssessment: { intro: string; items: string[] };
   sections: LessonSection[];
   walkthroughs: WalkthroughDef[];
+  assessments: AssessmentDef[];
   quiz: QuizQuestion[];
   homework: {
     intro: string;

@@ -47,7 +47,7 @@ export default function GuardrailsPage() {
 
       {/* Poster */}
       <div className="print-page overflow-hidden rounded-3xl bg-card shadow-lift ring-1 ring-ink/10">
-        <div className="bg-navy px-8 py-7 text-center text-white">
+        <div className="bg-navy px-8 py-7 text-center text-cream">
           <div className="text-[11px] font-bold uppercase tracking-[0.25em] text-gold">
             {clientConfig.companyName} · AI Golden Rules
           </div>
@@ -56,7 +56,7 @@ export default function GuardrailsPage() {
         <div className="divide-y divide-line">
           {RULES.map((r, i) => (
             <div key={r.title} className="flex items-start gap-5 px-8 py-6">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-paper text-3xl ring-1 ring-ink/10">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-card bg-paper text-3xl ring-1 ring-ink/10">
                 {r.icon}
               </span>
               <div>

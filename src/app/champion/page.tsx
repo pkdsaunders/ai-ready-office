@@ -110,8 +110,8 @@ export default function ChampionPage() {
         <Card>
           <p className="text-sm leading-relaxed text-ink/85">
             At the end of each session, every learner presses one button and an email lands in{' '}
-            <b>{clientConfig.championEmail}</b> with their name, quiz score, completed steps, homework status, points
-            and a one-line reflection. Log the quiz score in the tracker on the wall, and read the reflections — they
+            <b>{clientConfig.championEmail}</b> with their name, quiz score, marked-exercise results (real work,
+            assessed by Claude on the spot), completed steps, homework status, points and a one-line reflection. Log the quiz score in the tracker on the wall, and read the reflections — they
             tell you exactly which workflows the team wants to automate, which becomes the shortlist for Days 9 and 10.
           </p>
           <ul className="mt-4 space-y-2 text-sm leading-relaxed text-ink-soft">
@@ -153,7 +153,7 @@ export default function ChampionPage() {
           <h2 className="font-display text-2xl font-semibold text-ink">Class tracker</h2>
           <Button onClick={() => window.print()}>🖨️ Print the tracker</Button>
         </div>
-        <div className="print-page overflow-x-auto rounded-2xl bg-card p-6 shadow-card ring-1 ring-ink/10">
+        <div className="print-page overflow-x-auto rounded-card bg-card p-6 shadow-card ring-1 ring-ink/10">
           <div className="mb-4 flex items-center justify-between">
             <div className="font-display text-lg font-semibold text-ink">
               {clientConfig.companyName} — {productConfig.productName}

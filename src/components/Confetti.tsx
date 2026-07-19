@@ -12,7 +12,7 @@ interface Piece {
   round: boolean;
 }
 
-const COLORS = ['#2563EB', '#D97706', '#15803D', '#F59E0B', '#93C5FD', '#0E1A2E'];
+const COLORS = ['#7B2525', '#BA6A4C', '#607456', '#D9A441', '#E8C39A', '#241C17'];
 
 export function Confetti({ count = 90 }: { count?: number }) {
   const [pieces, setPieces] = useState<Piece[]>([]);

@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 
 function Frame({ children, url }: { children: ReactNode; url: string }) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-lift ring-1 ring-ink/10">
+    <div className="overflow-hidden rounded-card bg-white shadow-lift ring-1 ring-ink/10">
       <div className="flex items-center gap-2 border-b border-ink/10 bg-paper-deep/60 px-4 py-2.5">
         <span className="flex gap-1.5">
           <i className="h-2.5 w-2.5 rounded-full bg-[#F87171]" />
@@ -28,7 +28,7 @@ function Frame({ children, url }: { children: ReactNode; url: string }) {
 function Callout({ n, className = '' }: { n: number; className?: string }) {
   return (
     <span
-      className={`absolute z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gold text-[12px] font-bold text-white shadow-[0_0_0_4px_rgba(217,119,6,0.2)] ${className}`}
+      className={`absolute z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gold text-[12px] font-bold text-cream shadow-[0_0_0_4px_rgba(217,119,6,0.2)] ${className}`}
     >
       {n}
     </span>
@@ -63,13 +63,13 @@ export function MockupNewChat() {
           <div className="font-display text-xl text-ink/80">Good morning. What are we working on?</div>
           <div className="relative w-full max-w-md">
             <Callout n={2} className="-left-2 -top-2" />
-            <div className="rounded-2xl bg-white p-3 ring-1 ring-ink/15 shadow-card">
+            <div className="rounded-card bg-white p-3 ring-1 ring-ink/15 shadow-card">
               <div className="text-ink-faint">Type your message here…</div>
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-[10px] text-ink-faint">＋ Attach</span>
                 <span className="relative">
                   <Callout n={3} className="-right-2 -top-2" />
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">↑</span>
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-cream">↑</span>
                 </span>
               </div>
             </div>
@@ -90,13 +90,13 @@ export function MockupConversation() {
   return (
     <Frame url="claude.ai">
       <div className="space-y-4 bg-white p-5 text-[12px] leading-relaxed sm:p-6">
-        <div className="ml-auto max-w-[85%] rounded-2xl rounded-tr-md bg-brand-soft/80 p-3.5 text-ink ring-1 ring-brand/15">
+        <div className="ml-auto max-w-[85%] rounded-card rounded-tr-md bg-brand-soft/80 p-3.5 text-ink ring-1 ring-brand/15">
           I&apos;m an office administrator at a small local business. Draft a short, friendly email to a customer,
           Jane Citizen, letting her know her Thursday 2pm appointment needs to move to Friday at 9:30am…
         </div>
         <div className="flex max-w-[92%] gap-2.5">
           <span className="mt-1 h-5 w-5 shrink-0 rounded-md bg-[#D97757]" />
-          <div className="rounded-2xl rounded-tl-md bg-paper/80 p-3.5 text-ink ring-1 ring-ink/10">
+          <div className="rounded-card rounded-tl-md bg-paper/80 p-3.5 text-ink ring-1 ring-ink/10">
             <p className="font-semibold">Subject: A small change to your Thursday appointment</p>
             <p className="mt-2">
               Hi Jane,
@@ -122,7 +122,7 @@ export function MockupPlanCheck() {
   return (
     <Frame url="claude.ai — settings">
       <div className="bg-white p-5 text-[12px] sm:p-6">
-        <div className="mx-auto max-w-sm rounded-2xl p-5 ring-1 ring-ink/10 shadow-card">
+        <div className="mx-auto max-w-sm rounded-card p-5 ring-1 ring-ink/10 shadow-card">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-ink">Your plan</span>
             <span className="rounded-full bg-brand-soft px-3 py-1 text-[11px] font-bold text-brand-deep ring-1 ring-brand/25">

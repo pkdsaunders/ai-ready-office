@@ -126,9 +126,9 @@ export function QuizEngine({
                   <span
                     className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                       picked !== null && isCorrect
-                        ? 'bg-grass text-white'
+                        ? 'bg-grass text-cream'
                         : picked !== null && isPicked
-                          ? 'bg-coral text-white'
+                          ? 'bg-coral text-cream'
                           : 'bg-paper-deep text-ink-soft'
                     }`}
                   >

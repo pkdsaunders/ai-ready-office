@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
+import { Newsreader } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import { productConfig } from '@/config/client';
 import { Header } from '@/components/Header';
 import './globals.css';
 
-const fraunces = Fraunces({
+const newsreader = Newsreader({
   subsets: ['latin'],
-  variable: '--font-fraunces',
-  axes: ['opsz'],
+  variable: '--font-newsreader',
+  style: ['normal', 'italic'],
 });
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'The AI-Ready Office — Claude training for admin teams',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en-AU" className={`${newsreader.variable} ${GeistSans.variable}`}>
       <body className="flex min-h-screen flex-col">
         <Header />
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6">{children}</main>

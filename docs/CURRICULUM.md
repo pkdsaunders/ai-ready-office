@@ -19,7 +19,7 @@
 
 ## Session rhythm (identical every day)
 
-Warm-up → Lesson (bite-size parts with key points) → Walkthroughs (tick-each-step, copy-ready prompts, stylised UI mockups) → Quiz (instant feedback) → Homework (~15 min, example data) → Finish (confetti, badge, scorecard → email to champion).
+Warm-up → Lesson (bite-size parts with key points) → Walkthroughs (tick-each-step, copy-ready prompts, stylised UI mockups) → **Marked exercises** (learner submits their actual work; Claude assesses it live against a rubric — score /100, strengths, one improvement, Golden-Rules data check; submitting is required to progress, passing is encouraged with resubmits) → Quiz (instant feedback) → Homework (~15 min, example data) → Finish (confetti, badge, scorecard → email to champion).
 
 Champion timing: 10 min welcome / 15 warm-up / 30 lesson / 25 walkthroughs / 10 quiz & wrap.
 

@@ -8,12 +8,10 @@
 
 body {
   @apply bg-paper font-body text-ink antialiased;
-  background-image: radial-gradient(rgba(20, 32, 51, 0.028) 1px, transparent 1px);
-  background-size: 22px 22px;
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.18);
+  background: rgba(186, 106, 76, 0.25);
 }
 
 /* Confetti */

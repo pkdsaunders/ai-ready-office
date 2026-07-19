@@ -36,7 +36,7 @@ export function Header() {
                 key={n.href}
                 href={n.href}
                 className={`shrink-0 rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-colors ${
-                  active ? 'bg-navy text-white' : 'text-ink-soft hover:bg-ink/5 hover:text-ink'
+                  active ? 'bg-navy text-cream' : 'text-ink-soft hover:bg-ink/5 hover:text-ink'
                 }`}
               >
                 {n.label}

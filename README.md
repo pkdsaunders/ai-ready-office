@@ -12,15 +12,24 @@ A sellable, white-label-ready Claude training programme for small-business admin
 - **Golden Rules poster** — `/guardrails`: printable A4 safety poster
 - **Certificate** — `/certificate`: unlocks after all 10 sessions, print-to-PDF
 
-## How tracking works (no backend, no PII stored)
+## How tracking works (no database, no PII stored)
 
-Progress, quiz scores and points live in each learner's browser (`localStorage`). At the end of each session the learner clicks one button which opens a **pre-filled email** of their scorecard addressed to the champion — nothing is transmitted automatically. First names only, and they never leave the learner's machine except in that email.
+Progress, quiz scores and points live in each learner's browser (`localStorage`). At the end of each session the learner clicks one button which opens a **pre-filled email** of their scorecard addressed to the champion — nothing is transmitted automatically. First names only.
+
+## Marked exercises (LLM-assessed submissions)
+
+Each session includes **marked exercises**: the learner pastes their actual work (an email they produced, a brief they wrote) and `/api/assess` grades it with Claude (`claude-opus-4-8`) against a server-side rubric — score /100, two strengths, one improvement, plus a Golden-Rules check that flags anything resembling real personal data. Stateless: nothing is stored server-side; best score + feedback persist in the learner's browser and feed the champion email. Requires `ANTHROPIC_API_KEY` (Vercel → Project → Settings → Environment Variables, then redeploy). Without it the app still works — the panel shows "assessor not configured".
+
+## Design system
+
+Mirrors the smashitmarketing.com brand (HOP §3): cream canvas `#EEE0CC`, warm ink `#241C17`, oxblood `#7B2525` CTAs/dark zones, terracotta `#BA6A4C` accents, sage `#607456` success, Newsreader display + Geist Sans body, 12px card / 8px control radii. Tokens live in `tailwind.config.ts`.
 
 ## Deploying for a client
 
 1. Edit `src/config/client.ts` — company name, industry, champion name + email, cohort label, confirmed Claude plan.
 2. `npm run build` (Node 22 — see below).
 3. `npx vercel --prod` from this directory (each client gets their own Vercel project: `vercel link` first).
+4. Set `ANTHROPIC_API_KEY` on the Vercel project (one shared Smash It key is fine — usage is a few cents per learner per session).
 
 ## Development
 

@@ -22,7 +22,7 @@ export function Walkthrough({
       <div className="border-b border-line bg-paper/60 p-6 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-sm font-bold text-white shadow-card">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-sm font-bold text-cream shadow-card">
               ▶
             </span>
             <div>
@@ -51,7 +51,7 @@ export function Walkthrough({
                   aria-label={`Mark step ${i + 1} ${isDone ? 'not done' : 'done'}`}
                   className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2 transition-all ${
                     isDone
-                      ? 'bg-grass text-white ring-grass'
+                      ? 'bg-grass text-cream ring-grass'
                       : 'bg-card text-ink-soft ring-ink/20 hover:ring-brand'
                   }`}
                 >
@@ -65,7 +65,7 @@ export function Walkthrough({
                     <p className="mt-1 text-sm leading-relaxed text-ink-soft">{step.detail}</p>
                   ) : null}
                   {step.copyText ? (
-                    <div className="mt-3 flex items-start gap-3 rounded-xl bg-navy p-4 text-sm leading-relaxed text-white/90">
+                    <div className="mt-3 flex items-start gap-3 rounded-xl bg-navy p-4 text-sm leading-relaxed text-cream/90">
                       <p className="flex-1">{step.copyText}</p>
                       <CopyButton text={step.copyText} />
                     </div>

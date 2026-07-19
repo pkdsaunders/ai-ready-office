@@ -45,16 +45,16 @@ export function ProgressRing({
         />
         <defs>
           <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#2563EB" />
-            <stop offset="100%" stopColor="#D97706" />
+            <stop offset="0%" stopColor="#7B2525" />
+            <stop offset="100%" stopColor="#BA6A4C" />
           </linearGradient>
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className={`font-display text-2xl font-semibold ${dark ? 'text-white' : 'text-ink'}`}>{label}</span>
+        <span className={`font-display text-2xl font-semibold ${dark ? 'text-cream' : 'text-ink'}`}>{label}</span>
         {sublabel ? (
           <span
-            className={`text-[10px] font-semibold uppercase tracking-wider ${dark ? 'text-white/50' : 'text-ink-faint'}`}
+            className={`text-[10px] font-semibold uppercase tracking-wider ${dark ? 'text-cream/50' : 'text-ink-faint'}`}
           >
             {sublabel}
           </span>

@@ -243,6 +243,41 @@ export const session01: BuiltSessionContent = {
     },
   ],
 
+  assessments: [
+    {
+      id: 's1-email',
+      after: 'w1',
+      title: 'Submit your work: the finished email',
+      brief:
+        "Paste the FINAL version of the reschedule email — the one you got after asking Claude to make it warmer. Claude will mark it against the brief and tell you what worked.",
+      placeholder: 'Paste the final email here — subject line included if you have one…',
+      lookingFor: [
+        'The Thursday → Friday 9:30am change is clear',
+        'Warm tone with an apology for the shuffle',
+        'Ends by asking Jane to confirm',
+        'Under about 130 words',
+        'Made-up details only',
+      ],
+      minChars: 100,
+    },
+    {
+      id: 's1-brief',
+      after: 'w2',
+      title: 'Submit your work: write your own brief',
+      brief:
+        "New scenario, your turn. A made-up mobile dog-grooming business has to cancel next Tuesday's appointments — the van needs repairs. Write the brief YOU would give Claude for the customer email. Don't run it through Claude — submit your prompt itself. That's the skill being marked.",
+      placeholder: "Write your brief to Claude here — who you are, what you need, the details, how you want it…",
+      lookingFor: [
+        'Says who the business is',
+        'States the job: an email about cancelling Tuesday',
+        'Includes the made-up specifics (day, van repairs, rebooking)',
+        'Sets the tone and a length cap',
+        'No real customer details',
+      ],
+      minChars: 80,
+    },
+  ],
+
   quiz: [
     {
       q: 'Which best describes what Claude is?',

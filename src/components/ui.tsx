@@ -23,7 +23,7 @@ export function Card({
   padded?: boolean;
 }) {
   return (
-    <div className={`rounded-2xl bg-card shadow-card ring-1 ring-ink/5 ${padded ? 'p-6 sm:p-8' : ''} ${className}`}>
+    <div className={`rounded-card bg-card shadow-card ring-1 ring-ink/5 ${padded ? 'p-6 sm:p-8' : ''} ${className}`}>
       {children}
     </div>
   );
@@ -69,13 +69,13 @@ export function Button({
 }) {
   const variants = {
     primary:
-      'bg-brand text-white shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_8px_20px_-8px_rgba(37,99,235,0.65)] hover:bg-brand-deep',
+      'bg-brand text-cream shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_8px_20px_-8px_rgba(123,37,37,0.55)] hover:bg-brand-deep',
     secondary: 'bg-card text-ink ring-1 ring-ink/15 hover:ring-ink/30 shadow-card',
     ghost: 'text-ink-soft hover:text-ink hover:bg-ink/5',
-    gold: 'bg-gold text-white shadow-[0_8px_20px_-8px_rgba(217,119,6,0.6)] hover:brightness-105',
+    gold: 'bg-gold text-cream shadow-[0_8px_20px_-8px_rgba(186,106,76,0.55)] hover:brightness-105',
   } as const;
   const sizes = { sm: 'px-3.5 py-2 text-sm', md: 'px-5 py-2.5 text-sm', lg: 'px-7 py-3.5 text-base' } as const;
-  const cls = `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-150 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none ${variants[variant]} ${sizes[size]} ${className}`;
+  const cls = `inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-all duration-150 ease-sim active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none ${variants[variant]} ${sizes[size]} ${className}`;
   if (href) {
     return (
       <a href={href} className={cls} aria-disabled={disabled}>
@@ -115,9 +115,9 @@ export function CopyButton({ text }: { text: string }) {
 
 export function PromptCard({ label, text }: { label: string; text: string }) {
   return (
-    <div className="rounded-xl bg-navy p-4 text-sm leading-relaxed text-white/90 shadow-card">
+    <div className="rounded-xl bg-navy p-4 text-sm leading-relaxed text-cream/90 shadow-card">
       <div className="mb-2 flex items-center justify-between gap-3">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/50">{label}</span>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/50">{label}</span>
         <CopyButton text={text} />
       </div>
       <p className="font-body">{text}</p>

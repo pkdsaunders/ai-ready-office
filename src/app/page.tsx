@@ -17,7 +17,7 @@ export default function CourseMap() {
   return (
     <div className="space-y-10 pb-16">
       {/* Hero */}
-      <section className="overflow-hidden rounded-3xl bg-navy text-white shadow-lift">
+      <section className="overflow-hidden rounded-3xl bg-navy text-cream shadow-lift">
         <div className="relative grid gap-8 p-8 sm:p-12 lg:grid-cols-[1.5fr,1fr] lg:items-center">
           <div
             aria-hidden
@@ -30,18 +30,18 @@ export default function CourseMap() {
           <div className="relative">
             <div className="flex flex-wrap items-center gap-2">
               <Chip tone="gold">{clientConfig.cohortLabel}</Chip>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/80 ring-1 ring-white/15">
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-cream/80 ring-1 ring-white/15">
                 {clientConfig.companyName}
               </span>
             </div>
             <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.08] sm:text-6xl">
               Two weeks to an <span className="text-gold">AI-ready</span> office.
             </h1>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70">
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-cream/70">
               Ten guided sessions — 90 minutes a day, Monday to Friday — that take your team from “never touched AI”
               to confidently building Claude into their daily work. No jargon, no coding, no real customer data. Ever.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold text-white/60">
+            <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold text-cream/60">
               <span className="rounded-full bg-white/10 px-3 py-1.5">10 × 90-minute sessions</span>
               <span className="rounded-full bg-white/10 px-3 py-1.5">Hands-on from Day 1</span>
               <span className="rounded-full bg-white/10 px-3 py-1.5">Quizzes & scorecards</span>
@@ -51,7 +51,7 @@ export default function CourseMap() {
               <div className="mt-8">
                 <Link
                   href={`/session/${nextSession.id}/`}
-                  className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-base font-bold text-white shadow-[0_12px_28px_-8px_rgba(217,119,6,0.7)] transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 rounded-control bg-gold px-7 py-3.5 text-base font-bold text-cream shadow-[0_12px_28px_-8px_rgba(186,106,76,0.6)] transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {done === 0 ? 'Start Day 1 →' : `Continue — Day ${nextSession.day} →`}
                 </Link>
@@ -71,7 +71,7 @@ export default function CourseMap() {
             </div>
             <div className="flex items-center gap-3 text-sm font-semibold">
               <span className="rounded-full bg-gold/20 px-4 py-1.5 text-gold ring-1 ring-gold/30">★ {pts} points</span>
-              <span className="rounded-full bg-white/10 px-4 py-1.5 text-white/70 ring-1 ring-white/15">
+              <span className="rounded-full bg-white/10 px-4 py-1.5 text-cream/70 ring-1 ring-white/15">
                 {SESSIONS.filter((s) => isSessionComplete(state, s.id)).length > 0
                   ? `${SESSIONS.filter((s) => isSessionComplete(state, s.id)).length} badge${SESSIONS.filter((s) => isSessionComplete(state, s.id)).length === 1 ? '' : 's'}`
                   : 'First badge awaits'}
@@ -92,7 +92,7 @@ export default function CourseMap() {
                   key={s.id}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="flex items-center gap-2.5 rounded-2xl bg-card px-4 py-2.5 shadow-card ring-1 ring-gold/20"
+                  className="flex items-center gap-2.5 rounded-card bg-card px-4 py-2.5 shadow-card ring-1 ring-gold/20"
                 >
                   <span className="text-2xl">{s.badge.emoji}</span>
                   <div>
@@ -130,7 +130,7 @@ export default function CourseMap() {
                 >
                   <Link
                     href={`/session/${s.id}/`}
-                    className={`group flex items-center gap-5 rounded-2xl p-5 ring-1 transition-all sm:p-6 ${
+                    className={`group flex items-center gap-5 rounded-card p-5 ring-1 transition-all sm:p-6 ${
                       isNext
                         ? 'bg-card shadow-lift ring-brand/40 hover:ring-brand'
                         : complete
@@ -141,11 +141,11 @@ export default function CourseMap() {
                     }`}
                   >
                     <span
-                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl font-display text-xl font-bold shadow-card ${
+                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-card font-display text-xl font-bold shadow-card ${
                         complete
-                          ? 'bg-grass text-white'
+                          ? 'bg-grass text-cream'
                           : isNext
-                            ? 'bg-brand text-white'
+                            ? 'bg-brand text-cream'
                             : unlocked
                               ? 'bg-card text-ink ring-1 ring-ink/15'
                               : 'bg-paper text-ink-faint ring-1 ring-ink/10'

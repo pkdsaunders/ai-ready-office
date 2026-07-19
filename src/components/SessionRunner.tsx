@@ -4,12 +4,13 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { SessionMeta } from '@/content/curriculum';
-import type { BuiltSessionContent, Block } from '@/content/types';
+import type { AssessmentResult, BuiltSessionContent, Block } from '@/content/types';
 import { clientConfig } from '@/config/client';
 import { sessionPoints, useProgress } from '@/lib/progress';
 import { Button, Callout, Card, Chip, Kicker, PromptCard } from './ui';
 import { Mockup } from './mockups';
 import { Walkthrough } from './Walkthrough';
+import { SubmitPanel } from './SubmitPanel';
 import { QuizEngine } from './QuizEngine';
 import { Confetti } from './Confetti';
 
@@ -121,10 +122,30 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
 
   // ----- stage guards -----
   const saDone = (sp.selfAssessment?.filter((v) => v > 0).length ?? 0) === content.selfAssessment.items.length && Boolean(state.name);
-  const practiceDone = content.walkthroughs.every(
+  const stepsDone = content.walkthroughs.every(
     (w) => (sp.walkthroughSteps?.[w.id]?.filter(Boolean).length ?? 0) === w.steps.length,
   );
+  const assessmentsDone = content.assessments.every((a) => (sp.assessments?.[a.id]?.attempts ?? 0) > 0);
+  const practiceDone = stepsDone && assessmentsDone;
   const quizDone = Boolean(sp.quiz);
+
+  function recordAssessment(defId: string, r: AssessmentResult) {
+    updateSession(meta.id, (p) => {
+      const prev = p.assessments?.[defId];
+      return {
+        ...p,
+        assessments: {
+          ...(p.assessments ?? {}),
+          [defId]: {
+            attempts: (prev?.attempts ?? 0) + 1,
+            bestScore: Math.max(prev?.bestScore ?? 0, r.score),
+            passed: (prev?.passed ?? false) || (r.pass && !r.safetyFlag),
+            last: r,
+          },
+        },
+      };
+    });
+  }
 
   // ----- finish side-effect -----
   useEffect(() => {
@@ -144,11 +165,20 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
     const sa = (sp.selfAssessment ?? [])
       .map((v, i) => `  • ${content.selfAssessment.items[i]}: ${v}/4`)
       .join('\n');
+    const marked = content.assessments
+      .map((a) => {
+        const st = sp.assessments?.[a.id];
+        if (!st || st.attempts === 0) return `  • ${a.title.replace('Submit your work: ', '')}: not submitted`;
+        return `  • ${a.title.replace('Submit your work: ', '')}: best ${st.bestScore}% ${st.passed ? '(passed)' : '(not yet passed)'} in ${st.attempts} attempt${st.attempts === 1 ? '' : 's'}${st.last?.safetyFlag ? ' ⚑ Golden Rules reminder given' : ''}`;
+      })
+      .join('\n');
     const lines = [
       `AI-Ready Office — Session ${meta.id} (${meta.title}) results`,
       `Name: ${state.name ?? 'Not set'}`,
       '',
       `Quiz: ${sp.quiz ? `${sp.quiz.score}/${sp.quiz.total} (attempts: ${sp.quiz.attempts})` : 'not taken'}${sp.quiz && !quizPass ? '  ⚑ below 70% — some help would be great' : ''}`,
+      'Marked exercises (assessed by Claude):',
+      marked,
       `Walkthrough steps: ${steps}/${totalSteps}`,
       `Homework: ${hw}/${content.homework.tasks.length} ticked${hw < content.homework.tasks.length ? ' (finishing before next session)' : ''}`,
       `Points today: ${points}`,
@@ -181,7 +211,7 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                 onClick={() => i < stage && go(i)}
                 className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold transition-colors ${
                   i === stage
-                    ? 'bg-navy text-white'
+                    ? 'bg-navy text-cream'
                     : i < stage
                       ? 'bg-grass-soft text-grass'
                       : 'bg-ink/5 text-ink-faint'
@@ -220,7 +250,7 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.15 }}
-                    className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-ink/8"
+                    className="overflow-hidden rounded-card bg-white shadow-card ring-1 ring-ink/8"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={content.heroImage.src} alt={content.heroImage.alt} className="w-full" />
@@ -272,7 +302,7 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                                 }
                                 className={`h-9 w-9 rounded-full text-sm font-bold ring-1 transition-all ${
                                   val === v
-                                    ? 'bg-brand text-white ring-brand scale-105'
+                                    ? 'bg-brand text-cream ring-brand scale-105'
                                     : 'bg-card text-ink-soft ring-ink/15 hover:ring-brand/50'
                                 }`}
                               >
@@ -339,8 +369,8 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                           <BlockView key={i} block={b} />
                         ))}
                       </div>
-                      <div className="rounded-xl bg-navy p-4 text-sm text-white/90">
-                        <span className="mr-2 rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                      <div className="rounded-xl bg-navy p-4 text-sm text-cream/90">
+                        <span className="mr-2 rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cream">
                           Key point
                         </span>
                         {s.keyPoint}
@@ -376,25 +406,37 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                     Do this, then that
                   </h2>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">
-                    Work through both walkthroughs at your own machine. Made-up details only — and if anything doesn&apos;t
-                    look like the pictures, wave your champion over.
+                    Work through both walkthroughs at your own machine, then submit your work for each marked exercise —
+                    Claude assesses it on the spot. Made-up details only, and if anything doesn&apos;t look like the
+                    pictures, wave your champion over.
                   </p>
                 </div>
                 {content.walkthroughs.map((w) => (
-                  <Walkthrough
-                    key={w.id}
-                    def={w}
-                    checked={sp.walkthroughSteps?.[w.id] ?? Array(w.steps.length).fill(false)}
-                    onToggle={(i) =>
-                      updateSession(meta.id, (p) => {
-                        const map = { ...(p.walkthroughSteps ?? {}) };
-                        const arr = [...(map[w.id] ?? Array(w.steps.length).fill(false))];
-                        arr[i] = !arr[i];
-                        map[w.id] = arr;
-                        return { ...p, walkthroughSteps: map };
-                      })
-                    }
-                  />
+                  <div key={w.id} className="space-y-8">
+                    <Walkthrough
+                      def={w}
+                      checked={sp.walkthroughSteps?.[w.id] ?? Array(w.steps.length).fill(false)}
+                      onToggle={(i) =>
+                        updateSession(meta.id, (p) => {
+                          const map = { ...(p.walkthroughSteps ?? {}) };
+                          const arr = [...(map[w.id] ?? Array(w.steps.length).fill(false))];
+                          arr[i] = !arr[i];
+                          map[w.id] = arr;
+                          return { ...p, walkthroughSteps: map };
+                        })
+                      }
+                    />
+                    {content.assessments
+                      .filter((a) => a.after === w.id)
+                      .map((a) => (
+                        <SubmitPanel
+                          key={a.id}
+                          def={a}
+                          stored={sp.assessments?.[a.id]}
+                          onResult={(r) => recordAssessment(a.id, r)}
+                        />
+                      ))}
+                  </div>
                 ))}
                 <div className="flex items-center justify-between">
                   <Button variant="ghost" onClick={() => go(1)}>
@@ -405,7 +447,12 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                   </Button>
                 </div>
                 {!practiceDone && (
-                  <p className="text-right text-xs text-ink-faint">Tick every step in both walkthroughs to continue.</p>
+                  <p className="text-right text-xs text-ink-faint">
+                    {!stepsDone
+                      ? 'Tick every step in both walkthroughs'
+                      : 'Submit your work for both marked exercises'}{' '}
+                    to continue. Passing isn&apos;t required to move on — submitting is.
+                  </p>
                 )}
               </>
             )}
@@ -473,7 +520,7 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
                         >
                           <span
                             className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold ring-2 ${
-                              done ? 'bg-grass text-white ring-grass' : 'bg-card text-transparent ring-ink/20'
+                              done ? 'bg-grass text-cream ring-grass' : 'bg-card text-transparent ring-ink/20'
                             }`}
                           >
                             ✓
@@ -540,9 +587,13 @@ export function SessionRunner({ meta, content }: { meta: SessionMeta; content: B
 
                 <Card>
                   <Kicker>Your Day {meta.day} scorecard</Kicker>
-                  <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
                     {[
                       { label: 'Quiz', value: sp.quiz ? `${sp.quiz.score}/${sp.quiz.total}` : '—' },
+                      {
+                        label: 'Marked work',
+                        value: `${content.assessments.filter((a) => sp.assessments?.[a.id]?.passed).length}/${content.assessments.length}`,
+                      },
                       {
                         label: 'Steps',
                         value: `${content.walkthroughs.reduce((n, w) => n + (sp.walkthroughSteps?.[w.id]?.filter(Boolean).length ?? 0), 0)}/${content.walkthroughs.reduce((n, w) => n + w.steps.length, 0)}`,

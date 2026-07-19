@@ -2,9 +2,24 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+export interface StoredAssessment {
+  attempts: number;
+  bestScore: number;
+  passed: boolean;
+  last?: {
+    score: number;
+    pass: boolean;
+    strengths: string[];
+    improvement: string;
+    safetyFlag: boolean;
+    safetyNote: string;
+  };
+}
+
 export interface SessionProgress {
   selfAssessment?: number[]; // 1–4 per item
   walkthroughSteps?: Record<string, boolean[]>;
+  assessments?: Record<string, StoredAssessment>;
   quiz?: { score: number; total: number; attempts: number };
   homework?: boolean[];
   reflection?: string;
@@ -30,13 +45,18 @@ function load(): ProgressState {
   }
 }
 
-/** Points: 5/walkthrough step, 10/correct quiz answer, 10/homework task, 10 self-assessment, 50 completion bonus */
+/** Points: 5/walkthrough step, 10/correct quiz answer, 10/homework task, 10 self-assessment, 25/passed assessment (+5 per attempt made), 50 completion bonus */
 export function sessionPoints(p: SessionProgress | undefined): number {
   if (!p) return 0;
   let pts = 0;
   if (p.selfAssessment?.length) pts += 10;
   if (p.walkthroughSteps)
     for (const steps of Object.values(p.walkthroughSteps)) pts += steps.filter(Boolean).length * 5;
+  if (p.assessments)
+    for (const a of Object.values(p.assessments)) {
+      if (a.attempts > 0) pts += 5;
+      if (a.passed) pts += 25;
+    }
   if (p.quiz) pts += p.quiz.score * 10;
   if (p.homework) pts += p.homework.filter(Boolean).length * 10;
   if (p.completedAt) pts += 50;
